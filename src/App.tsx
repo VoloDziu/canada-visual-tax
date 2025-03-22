@@ -9,6 +9,32 @@ const federalRates = [0.15, 0.205, 0.26, 0.29, 0.33];
 
 const federalBrackets = [57375, 57375, 63132, 75532] as const;
 
+function calculateTaxes(
+  number: number,
+  brackets: readonly number[],
+  rates: readonly number[],
+) {
+  const taxPerBracket = [];
+  let num = number;
+
+  let index = 0;
+  while (num > 0) {
+    const bracket = brackets[index];
+    const rate = rates[index];
+
+    if (bracket) {
+      taxPerBracket.push(Math.min(bracket, num) * rate);
+      num = num - bracket;
+    } else {
+      taxPerBracket.push(num * rate);
+      num = 0;
+    }
+    index++;
+  }
+
+  return taxPerBracket;
+}
+
 function App() {
   const [fed, setFed] = useState<number[]>([]);
 
@@ -20,23 +46,7 @@ function App() {
       num = 0;
     }
 
-    const taxPerBracket = [];
-
-    let index = 0;
-    while (num > 0) {
-      const bracket = federalBrackets[index];
-      const rate = federalRates[index];
-
-      if (bracket) {
-        taxPerBracket.push(Math.min(bracket, num) * rate);
-        console.log(">>>", bracket, num);
-        num = num - bracket;
-      } else {
-        taxPerBracket.push(num * rate);
-        num = 0;
-      }
-      index++;
-    }
+    const taxPerBracket = calculateTaxes(num, federalBrackets, federalRates);
 
     setFed(taxPerBracket);
   }
@@ -68,28 +78,58 @@ function App() {
             <CardContent className="text-muted-foreground grid grid-cols-[auto_1fr_auto] items-center gap-4 text-sm">
               <div>$0 - $57,375</div>
               <div>@ 15%</div>
-              <div className="text-right">${fed[0]?.toFixed(2) ?? 0}</div>
+              <div className="text-right">
+                {fed[0]?.toLocaleString("en-CA", {
+                  style: "currency",
+                  currency: "CAD",
+                }) ?? 0}
+              </div>
 
               <div>$57,375 - $114,750</div>
               <div>@ 20.5%</div>
-              <div className="text-right">${fed[1]?.toFixed(2) ?? 0}</div>
+              <div className="text-right">
+                {fed[1]?.toLocaleString("en-CA", {
+                  style: "currency",
+                  currency: "CAD",
+                }) ?? 0}
+              </div>
 
               <div>$114,750 - $177,882</div>
               <div>@ 26%</div>
-              <div className="text-right">${fed[2]?.toFixed(2) ?? 0}</div>
+              <div className="text-right">
+                {fed[2]?.toLocaleString("en-CA", {
+                  style: "currency",
+                  currency: "CAD",
+                }) ?? 0}
+              </div>
 
               <div>$177,882 - $253,414</div>
               <div>@ 29%</div>
-              <div className="text-right">${fed[3]?.toFixed(2) ?? 0}</div>
+              <div className="text-right">
+                {fed[3]?.toLocaleString("en-CA", {
+                  style: "currency",
+                  currency: "CAD",
+                }) ?? 0}
+              </div>
 
               <div>over $253,414</div>
               <div>@ 33%</div>
-              <div className="text-right">${fed[4]?.toFixed(2) ?? 0}</div>
+              <div className="text-right">
+                {fed[4]?.toLocaleString("en-CA", {
+                  style: "currency",
+                  currency: "CAD",
+                }) ?? 0}
+              </div>
 
               <div className="border-border text-foreground col-span-full grid grid-cols-[1fr_auto] gap-2 border-t pt-4 text-base">
                 <div className="">Total</div>
                 <div className="text-right">
-                  ${fed.reduce((a, b) => a + b, 0).toFixed(2)}
+                  {fed
+                    .reduce((a, b) => a + b, 0)
+                    .toLocaleString("en-CA", {
+                      style: "currency",
+                      currency: "CAD",
+                    })}
                 </div>
               </div>
             </CardContent>
