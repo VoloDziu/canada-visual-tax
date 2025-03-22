@@ -75,7 +75,7 @@ function App() {
             <CardHeader>
               <CardTitle>Federal Taxes</CardTitle>
             </CardHeader>
-            <CardContent className="text-muted-foreground grid grid-cols-[auto_1fr_auto] items-center gap-4 text-sm">
+            <CardContent className="text-muted-foreground grid grid-cols-[auto_1fr_auto] items-center gap-x-4 gap-y-2 text-sm">
               <div>$0 - $57,375</div>
               <div>@ 15%</div>
               <div className="text-right">
@@ -121,7 +121,7 @@ function App() {
                 }) ?? 0}
               </div>
 
-              <div className="border-border text-foreground col-span-full grid grid-cols-[1fr_auto] gap-2 border-t pt-4 text-base">
+              <div className="border-border text-foreground col-span-full grid grid-cols-[1fr_auto] gap-2 border-t pt-2 text-base">
                 <div className="">Total</div>
                 <div className="text-right">
                   {fed
