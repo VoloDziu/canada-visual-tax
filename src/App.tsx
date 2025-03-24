@@ -375,7 +375,7 @@ function App() {
           </div>
 
           <div className="flex flex-col gap-1">
-            <Label htmlFor="epb">Taxable benefits</Label>
+            <Label htmlFor="epb">Taxable benefits (monthly)</Label>
             <Input
               value={epb}
               type="number"
